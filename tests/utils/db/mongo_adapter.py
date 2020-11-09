@@ -11,6 +11,10 @@ class MongoAdapterTestCase(unittest.TestCase):
         self.patches = []
         self.mocks = {}
 
+        objectid_patch = patch('orders.utils.db.mongo_adapter.ObjectId')
+        self.mocks['objectid_mock'] = objectid_patch.start()
+        self.patches.append(objectid_patch)
+
         mongo_client_patch = patch('orders.utils.db.mongo_adapter.MongoClient')
         self.mocks['mongo_client_mock'] = mongo_client_patch.start()
         self.patches.append(mongo_client_patch)
@@ -89,3 +93,27 @@ class MongoAdapterTestCase(unittest.TestCase):
         # Act & Assert
         with self.assertRaises(KeyError):
             MongoAdapter.search(mock_self, query)
+
+    def test_cancel_order_updated_returns_nothing(self):
+        # Setup
+        mock_self = MagicMock()
+        order_id = 'kibe'
+
+        # Act
+        MongoAdapter.cancel_order(mock_self, order_id)
+
+        # Assert
+        mock_self.db_.find_one_and_update.assert_called_with(
+            {'_id': self.mocks['objectid_mock'].return_value},
+            {'$set': {'status.cancelled': True}}
+        )
+
+    def test_cancel_order_not_updated_raises_key_error(self):
+        # Setup
+        mock_self = MagicMock()
+        order_id = 'kibe'
+        mock_self.db_.find_one_and_update.return_value = None
+
+        # Act & Assert
+        with self.assertRaises(KeyError):
+            MongoAdapter.cancel_order(mock_self, order_id)
