@@ -1,0 +1,31 @@
+{   
+    "_id": "unique to this order",
+    "petshop": {
+        "username": "same as in shops collection",
+        "name":"same as in shops collection"
+    },
+    "service": {
+        "id": "same as in services collection",
+        "name": "same as in services collection"
+    },
+    "client": {
+        "username": "same as in client collection",
+        "name": "same as in client collection",
+        "pet": {
+            "pet_name1": {
+                "species": "dog",
+                "breed": "labrador",
+                "age_years": "10",
+                "weight_kilos": "12"
+            }
+        }
+    },
+    "schedule": {
+        "datetime": "dateTimeObject"
+    },
+    "status": {
+        "confirmed": "boolean, defaults to false",
+        "cancelled": "boolean, defaults to false",
+        "rejected": "boolean, defaults to false"
+    }
+}
