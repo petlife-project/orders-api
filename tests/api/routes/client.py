@@ -21,6 +21,10 @@ class ClientTestCase(unittest.TestCase):
         self.mocks['polling_service_mock'] = polling_service_patch.start()
         self.patches.append(polling_service_patch)
 
+        cancellation_service_patch = patch('orders.api.routes.client.CancellationService')
+        self.mocks['cancellation_service_mock'] = cancellation_service_patch.start()
+        self.patches.append(cancellation_service_patch)
+
     def tearDown(self):
         for patch_ in self.patches:
             patch_.stop()
@@ -42,3 +46,12 @@ class ClientTestCase(unittest.TestCase):
         self.mocks['polling_service_mock'].assert_called()
         self.mocks['polling_service_mock'].return_value.\
             get_orders.assert_called_with('client')
+
+    def test_delete_calls_cancellation_service(self):
+        # Act
+        Client.delete()
+
+        # Assert
+        self.mocks['cancellation_service_mock'].assert_called()
+        self.mocks['cancellation_service_mock'].return_value.\
+            cancel.assert_called()

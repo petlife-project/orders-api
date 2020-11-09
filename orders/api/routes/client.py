@@ -2,6 +2,7 @@ from flask_restful import Resource
 
 from orders.api.services.order_placement import OrderPlacementService
 from orders.api.services.polling import PollingService
+from orders.api.services.cancellation import CancellationService
 
 
 class Client(Resource):
@@ -18,5 +19,6 @@ class Client(Resource):
         return service.place_order()
 
     @staticmethod
-    def put():
-        pass
+    def delete():
+        service = CancellationService()
+        return service.cancel()
