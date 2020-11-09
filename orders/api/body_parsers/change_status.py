@@ -1,9 +1,10 @@
 from flask_restful.reqparse import RequestParser
 
 
-class CancellationParser:
-    """ Parser for the cancellation service, where an order id
-        is provided to change its status to cancelled.
+class ChangeStatusParser:
+    """ Parser for the cancellation, confirmation and rejection services,
+        where an order's id is provided and its status is set to one of
+        the three based on the route and method used.
     """
     def __init__(self):
         parser = RequestParser()
