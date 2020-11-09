@@ -1,6 +1,7 @@
 from flask_restful import Resource
 
 from orders.api.services.polling import PollingService
+from orders.api.services.confirmation import ConfirmationService
 
 
 class Shop(Resource):
@@ -13,4 +14,5 @@ class Shop(Resource):
 
     @staticmethod
     def put():
-        pass
+        service = ConfirmationService()
+        return service.confirm()

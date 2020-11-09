@@ -71,3 +71,21 @@ class MongoAdapter:
 
         if not update:
             raise KeyError('No orders found with provided id')
+
+    def confirm_order(self, order_id):
+        """ Queries the database via the _id index and updates the value
+            of the confirmed field inside the status object
+
+            Args:
+                order_id (str): The id of the order to be confirmed.
+
+            Raises:
+                KeyError: If no orders match the searched id.
+        """
+        query = {'_id': ObjectId(order_id)}
+        change = {'$set': {'status.confirmed': True}}
+
+        update = self.db_.find_one_and_update(query, change)
+
+        if not update:
+            raise KeyError('No orders found with provided id')
