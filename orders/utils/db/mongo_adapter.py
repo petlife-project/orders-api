@@ -28,3 +28,27 @@ class MongoAdapter:
             return
         except PyMongoError as error:
             raise RuntimeError('Unexpected error when working with MongoDB.') from error
+
+    def search(self, query):
+        """ Uses the query provided to fetch the orders related to that user.
+
+            Args:
+                query (dict): The search term, matching the username to the provided input
+
+            Raises:
+                KeyError: If no orders are found for that user.
+
+            Returns:
+                results (list): List of orders, already filtered from Mongo Results Object
+        """
+        results = []
+        search_result = self.db_.find(query)
+
+        for doc in search_result:
+            doc['_id'] = str(doc['_id'])
+            results.append(doc)
+
+        if not results:
+            raise KeyError('No orders related to this user')
+
+        return results

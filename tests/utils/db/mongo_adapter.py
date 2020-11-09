@@ -67,3 +67,25 @@ class MongoAdapterTestCase(unittest.TestCase):
         # Act & Assert
         with self.assertRaises(RuntimeError):
             MongoAdapter.place_order(mock_self, doc)
+
+    def test_search_returns_results(self):
+        # Setup
+        mock_self = MagicMock()
+        query = {}
+        mock_self.db_.find.return_value = [{'_id': 123}]
+
+        # Act
+        results = MongoAdapter.search(mock_self, query)
+
+        # Assert
+        self.assertEqual(results, [{'_id': '123'}])
+
+    def test_search_no_results_raises_key_error(self):
+        # Setup
+        mock_self = MagicMock()
+        query = {}
+        mock_self.db_.find.return_value = []
+
+        # Act & Assert
+        with self.assertRaises(KeyError):
+            MongoAdapter.search(mock_self, query)

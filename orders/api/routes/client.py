@@ -1,6 +1,7 @@
 from flask_restful import Resource
 
 from orders.api.services.order_placement import OrderPlacementService
+from orders.api.services.polling import PollingService
 
 
 class Client(Resource):
@@ -8,7 +9,8 @@ class Client(Resource):
 
     @staticmethod
     def get():
-        pass
+        service = PollingService()
+        return service.get_orders('client')
 
     @staticmethod
     def post():
