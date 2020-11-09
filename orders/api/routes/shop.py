@@ -1,7 +1,7 @@
 from flask_restful import Resource
 
 
-class ShopOrders(Resource):
+class Shop(Resource):
     """ For a shop to accept/reject orders and get their current status."""
 
     @staticmethod
