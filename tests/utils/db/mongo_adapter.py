@@ -141,3 +141,27 @@ class MongoAdapterTestCase(unittest.TestCase):
         # Act & Assert
         with self.assertRaises(KeyError):
             MongoAdapter.confirm_order(mock_self, order_id)
+
+    def test_reject_order_updated_returns_nothing(self):
+        # Setup
+        mock_self = MagicMock()
+        order_id = 'kibe'
+
+        # Act
+        MongoAdapter.reject_order(mock_self, order_id)
+
+        # Assert
+        mock_self.db_.find_one_and_update.assert_called_with(
+            {'_id': self.mocks['objectid_mock'].return_value},
+            {'$set': {'status.rejected': True}}
+        )
+
+    def test_reject_order_not_updated_raises_key_error(self):
+        # Setup
+        mock_self = MagicMock()
+        order_id = 'kibe'
+        mock_self.db_.find_one_and_update.return_value = None
+
+        # Act & Assert
+        with self.assertRaises(KeyError):
+            MongoAdapter.reject_order(mock_self, order_id)

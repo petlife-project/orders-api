@@ -21,6 +21,10 @@ class ShopTestCase(unittest.TestCase):
         self.mocks['confirmation_service_mock'] = confirmation_service_patch.start()
         self.patches.append(confirmation_service_patch)
 
+        rejection_service_patch = patch('orders.api.routes.shop.RejectionService')
+        self.mocks['rejection_service_mock'] = rejection_service_patch.start()
+        self.patches.append(rejection_service_patch)
+
     def tearDown(self):
         for patch_ in self.patches:
             patch_.stop()
@@ -42,3 +46,12 @@ class ShopTestCase(unittest.TestCase):
         self.mocks['confirmation_service_mock'].assert_called()
         self.mocks['confirmation_service_mock'].return_value.\
             confirm.assert_called()
+
+    def test_delete_calls_rejection_service(self):
+        # Act
+        Shop.delete()
+
+        # Assert
+        self.mocks['rejection_service_mock'].assert_called()
+        self.mocks['rejection_service_mock'].return_value.\
+            reject.assert_called()
