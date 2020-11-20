@@ -1,30 +1,30 @@
 {
-    "_id": "unique to this order",
+    "_id": "id unico do pedido",
     "petshop": {
-        "username": "same as in shops collection",
-        "name": "same as in shops collection"
+        "username": "igual ao username na colecao de petshop",
+        "name": "igual ao name na colecao de petshop"
     },
     "service": {
-        "id": "same as in services collection",
-        "name": "same as in services collection"
+        "id": "igual ao id na colecao de services",
+        "name": "igual ao name na colecao de services"
     },
     "client": {
-        "username": "same as in client collection",
-        "name": "same as in client collection",
+        "username": "igual ao username na colecao de client",
+        "name": "igual ao name na colecao de client",
         "pet": {
-            "name": "Tchunay",
-            "species": "dog",
-            "breed": "labrador",
-            "age_years": "10",
-            "weight_kilos": "12"
+            "name": "igual ao name do objeto de um pet na colecao de client",
+            "species": "igual ao species do objeto de um pet na colecao de client",
+            "breed": "igual ao breed do objeto de um pet na colecao de client",
+            "age_years": "igual ao age_years do objeto de um pet na colecao de client",
+            "weight_kilos": "igual ao weight_kilos do objeto de um pet na colecao de client"
         }
     },
     "schedule": {
-        "datetime": "dateTimeObject"
+        "datetime": "objeto datetime formato UTC"
     },
     "status": {
-        "confirmed": "boolean, defaults to false",
-        "cancelled": "boolean, defaults to false",
-        "rejected": "boolean, defaults to false"
+        "confirmed": "booleano, inicializado em false",
+        "cancelled": "booleano, inicializado em false",
+        "rejected": "booleano, inicializado em false"
     }
 }
