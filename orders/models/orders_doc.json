@@ -1,0 +1,30 @@
+{
+    "_id": "id unico do pedido",
+    "petshop": {
+        "username": "igual ao username na colecao de petshop",
+        "name": "igual ao name na colecao de petshop"
+    },
+    "service": {
+        "id": "igual ao id na colecao de services",
+        "name": "igual ao name na colecao de services"
+    },
+    "client": {
+        "username": "igual ao username na colecao de client",
+        "name": "igual ao name na colecao de client",
+        "pet": {
+            "name": "igual ao name do objeto de um pet na colecao de client",
+            "species": "igual ao species do objeto de um pet na colecao de client",
+            "breed": "igual ao breed do objeto de um pet na colecao de client",
+            "age_years": "igual ao age_years do objeto de um pet na colecao de client",
+            "weight_kilos": "igual ao weight_kilos do objeto de um pet na colecao de client"
+        }
+    },
+    "schedule": {
+        "datetime": "objeto datetime formato UTC"
+    },
+    "status": {
+        "confirmed": "booleano, inicializado em false",
+        "cancelled": "booleano, inicializado em false",
+        "rejected": "booleano, inicializado em false"
+    }
+}
