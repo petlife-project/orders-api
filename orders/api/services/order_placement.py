@@ -1,5 +1,3 @@
-import json
-
 from orders.utils.db.adapter_factory import get_mongo_adapter
 from orders.api.body_parsers.order_placement import OrderPlacementParser
 
@@ -25,7 +23,7 @@ class OrderPlacementService:
         self._resolve_request_fields(doc)
         self._create_control_fields(doc)
         self._insert_in_mongo(doc)
-        return 'Order placed!', 200
+        return 200
 
     @staticmethod
     def _resolve_request_fields(doc):
@@ -46,7 +44,7 @@ class OrderPlacementService:
         doc['client'] = {
             'username': doc['client_username'],
             'name': doc['client_name'],
-            'pet': json.loads(doc['client_pet'])
+            'pet': (doc['client_pet'])
         }
         del doc['client_username']
         del doc['client_name']

@@ -17,7 +17,7 @@ class ConfirmationService:
         """
         order_id = self.parser.field
         self._update_in_mongo(order_id)
-        return 'Order confirmed successfully.', 200
+        return 200
 
     @staticmethod
     def _update_in_mongo(order_id):
