@@ -12,4 +12,4 @@ COPY --chown=worker:worker requirements.txt requirements.txt
 RUN pip install --user -r requirements.txt
 
 COPY --chown=worker:worker orders orders
-ENTRYPOINT python3.7 -m orders.app
+ENTRYPOINT python -m orders.app

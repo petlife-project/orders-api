@@ -45,7 +45,7 @@ class CancellationServiceTestCase(unittest.TestCase):
 
         # Assert
         mock_self._update_in_mongo.assert_called_once()
-        self.assertEqual(response, ('Order cancelled successfully.', 200))
+        self.assertEqual(response, 200)
 
     def test_update_in_mongo_calls_cancel_order_successfully(self):
         # Setup

@@ -22,4 +22,5 @@ API.add_resource(Client, '/client')
 API.add_resource(Shop, '/shop')
 
 if __name__ == '__main__':
+    print(f'Server running on port {PORT}')
     SERVER.safe_start()

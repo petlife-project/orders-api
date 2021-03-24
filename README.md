@@ -30,7 +30,7 @@ $ export $(cat .env | xargs)
 5 - Finally, start the application:
 
 ```
-$ python3.7 -m orders.app
+$ python -m orders.app
 ```
 
 # Use cases and endpoints #
@@ -39,27 +39,31 @@ $ python3.7 -m orders.app
 `POST /client`
 
 *Request body:*
-Form data
-```
-petshop_username: "petshopxusernam123"
-petshop_name: "PetX Diadema"
-service_id: "5f9d6594448854f39b13d386"
-service_name: "Banho"
-client_username: "user123"
-client_name: "Pedro"
-client_pet: (stringified JSON) `{"name":"Tchunay","species":"dog","breed":"labrador","age_years":"10","weight_kilos":"12"}`
-schedule_datetime: (UTC) "2020-12-30T08:01:00-03:00"
+JSON
+```json
+{
+    "petshop_username": "string",
+    "petshop_name": "string",
+    "service_id": "string",
+    "service_name": "string",
+    "client_username": "string",
+    "client_name": "string",
+    "client_pet": {
+        "name": "string",
+        "species": "string",
+        "breed": "string",
+        "age_years": "integer",
+        "weight_kilos": "float"
+    },
+    "schedule_datetime": (UTC) "datetime"
+}
 ```
 
 *Responses*
 
 `200 OK`
 
-Returns ok code if everything is correct with the request
-
-```JSON
-'Order placed!'
-```
+Order places successfully
 
 ## Order Cancellation ##
 `DELETE /client?order_id=<exact-match>`
@@ -68,11 +72,7 @@ Returns ok code if everything is correct with the request
 
 `200 OK`
 
-Returns ok code if everything is correct with the request
-
-```JSON
-'Order cancelled successfully.'
-```
+Order cancelled successfully
 
 `404 Not found`
 
@@ -89,11 +89,7 @@ Returns not found code if the order id sent on the request doesn't match any of 
 
 `200 OK`
 
-Returns ok code if everything is correct with the request
-
-```JSON
-'Order confirmed successfully.'
-```
+Order confirmed successfully
 
 `404 Not found`
 
@@ -110,11 +106,7 @@ Returns not found code if the order id sent on the request doesn't match any of 
 
 `200 OK`
 
-Returns ok code if everything is correct with the request
-
-```JSON
-'Order rejected successfully.'
-```
+Order rejected successfully
 
 `404 Not found`
 
@@ -138,65 +130,35 @@ Returns ok code and list of orders if everything is correct with the request and
 ```JSON
 [
     {
-        "_id": "5fa8a22e11d142b2dbf038a2",
-        "client": {
-            "name": "Allan",
-            "pet": {
-                "name": "Tchunay",
-                "species": "dog",
-                "breed": "labrador",
-                "age_years": "10",
-                "weight_kilos": "12"   
-            },
-            "username": "allandlo"
-        },
+        "_id": "string",
         "petshop": {
-            "name": "Pet X",
-            "username": "petxusername"
-        },
-        "schedule": {
-            "datetime": "2020-12-30T09:30:00-03:00"
+            "username": "string",
+            "name": "string"
         },
         "service": {
-            "id": "5f9d6594448854f39b13d386",
-            "name": "Banho"
+            "id": "string",
+            "name": "string"
+        },
+        "client": {
+            "username": "string",
+            "name": "string",
+            "pet": {
+                "name": "string",
+                "species": "string",
+                "breed": "string",
+                "age_years": "integer",
+                "weight_kilos": "float"
+            }
+        },
+        "schedule": {
+            "datetime": "datetime"
         },
         "status": {
-            "cancelled": false,
-            "confirmed": false,
-            "rejected": false
+            "confirmed": "boolean",
+            "cancelled": "boolean",
+            "rejected": "boolean"
         }
     },
-    {
-        "_id": "5fa8a23311d142b2dbf038a3",
-        "client": {
-            "name": "Bruno",
-            "pet": {
-                "name": "Tico",
-                "species": "dog",
-                "breed": "labrador",
-                "age_years": "10",
-                "weight_kilos": "12"
-            },
-            "username": "manobrow"
-        },
-        "petshop": {
-            "name": "Pet X",
-            "username": "petxusername"
-        },
-        "schedule": {
-            "datetime": "2020-12-08-08-00"
-        },
-        "service": {
-            "id": "5f9d6594448854f39b13d386",
-            "name": "Tosa"
-        },
-        "status": {
-            "cancelled": false,
-            "confirmed": false,
-            "rejected": false
-        }
-    }
 ]
 ```
 

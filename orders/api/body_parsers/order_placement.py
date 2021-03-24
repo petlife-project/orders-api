@@ -6,17 +6,17 @@ class OrderPlacementParser:
     """
     def __init__(self):
         self._fields = [
-            {'name': 'petshop_username', 'type': str, 'location': 'form', 'required': True},
-            {'name': 'petshop_name', 'type': str, 'location': 'form', 'required': True},
+            {'name': 'petshop_username', 'type': str, 'location': 'json', 'required': True},
+            {'name': 'petshop_name', 'type': str, 'location': 'json', 'required': True},
 
-            {'name': 'service_id', 'type': str, 'location': 'form', 'required': True},
-            {'name': 'service_name', 'type': str, 'location': 'form', 'required': True},
+            {'name': 'service_id', 'type': str, 'location': 'json', 'required': True},
+            {'name': 'service_name', 'type': str, 'location': 'json', 'required': True},
 
-            {'name': 'client_username', 'type': str, 'location': 'form', 'required': True},
-            {'name': 'client_name', 'type': str, 'location': 'form', 'required': True},
-            {'name': 'client_pet', 'type': str, 'location': 'form', 'required': True},
+            {'name': 'client_username', 'type': str, 'location': 'json', 'required': True},
+            {'name': 'client_name', 'type': str, 'location': 'json', 'required': True},
+            {'name': 'client_pet', 'type': dict, 'location': 'json', 'required': True},
 
-            {'name': 'schedule_datetime', 'type': str, 'location': 'form', 'required': True}
+            {'name': 'schedule_datetime', 'type': str, 'location': 'json', 'required': True}
         ]
 
         self.parser = self._create_parser()

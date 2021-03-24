@@ -45,7 +45,7 @@ class ConfirmationServiceTestCase(unittest.TestCase):
 
         # Assert
         mock_self._update_in_mongo.assert_called_once()
-        self.assertEqual(response, ('Order confirmed successfully.', 200))
+        self.assertEqual(response, 200)
 
     def test_update_in_mongo_calls_confirm_order_successfully(self):
         # Setup

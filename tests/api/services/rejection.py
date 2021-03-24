@@ -45,7 +45,7 @@ class RejectionServiceTestCase(unittest.TestCase):
 
         # Assert
         mock_self._update_in_mongo.assert_called_once()
-        self.assertEqual(response, ('Order rejected successfully.', 200))
+        self.assertEqual(response, 200)
 
     def test_update_in_mongo_calls_reject_order_successfully(self):
         # Setup

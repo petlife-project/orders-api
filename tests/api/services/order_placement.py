@@ -10,10 +10,6 @@ class OrderPlacementServiceTestCase(unittest.TestCase):
         self.mocks = {}
         self.patches = []
 
-        json_patch = patch('orders.api.services.order_placement.json')
-        self.mocks['json_mock'] = json_patch.start()
-        self.patches.append(json_patch)
-
         parser_patch = patch(
             'orders.api.services.order_placement.OrderPlacementParser')
         self.mocks['parser_mock'] = parser_patch.start()
@@ -46,7 +42,7 @@ class OrderPlacementServiceTestCase(unittest.TestCase):
         response = OrderPlacementService.place_order(mock_self)
 
         # Assert
-        self.assertEqual(response, ('Order placed!', 200))
+        self.assertEqual(response, 200)
 
     def test_resolve_request_fields_successfull_run_alters_dict(self):
         # Setup
@@ -57,7 +53,7 @@ class OrderPlacementServiceTestCase(unittest.TestCase):
             'service_name': 'service_name123',
             'client_username': 'client_username123',
             'client_name': 'client_name123',
-            'client_pet': '{"tchunay":{"species":"dog"}}',
+            'client_pet': {'tchunay': {'species': 'dog'}},
             'schedule_datetime': '2020-10-11-09-30'
         }
 
@@ -77,7 +73,7 @@ class OrderPlacementServiceTestCase(unittest.TestCase):
             'client': {
                 'username': 'client_username123',
                 'name': 'client_name123',
-                'pet': self.mocks['json_mock'].loads.return_value
+                'pet': {'tchunay': {'species': 'dog'}}
             },
             'schedule': {
                 'datetime': '2020-10-11-09-30'
