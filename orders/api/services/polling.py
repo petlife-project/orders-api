@@ -7,6 +7,7 @@ from orders.api.body_parsers.polling import PollingParser
 from orders.utils.db.adapter_factory import get_mongo_adapter
 
 
+# pylint: disable=inconsistent-return-statements
 class PollingService:
     """ Service responsible for getting all the orders related to an user
         The user is identified through the username sent on the request
