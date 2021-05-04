@@ -33,6 +33,41 @@ $ export $(cat .env | xargs)
 $ python -m orders.app
 ```
 
+# Data model #
+
+```json
+{
+    "_id": "string",
+    "petshop": {
+        "username": "string",
+        "name": "string"
+    },
+    "service": {
+        "id": "string",
+        "name": "string"
+    },
+    "client": {
+        "username": "string",
+        "name": "string",
+        "pet": {
+            "name": "string",
+            "species": "string",
+            "breed": "string",
+            "age_years": "integer",
+            "weight_kilos": "float"
+        }
+    },
+    "schedule": {
+        "datetime": "datetime"
+    },
+    "status": {
+        "confirmed": "boolean",
+        "cancelled": "boolean",
+        "rejected": "boolean"
+    }
+}
+```
+
 # Use cases and endpoints #
 
 ## Order Placement ##
