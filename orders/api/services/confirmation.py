@@ -4,6 +4,7 @@ from orders.api.body_parsers.change_status import ChangeStatusParser
 from orders.utils.db.adapter_factory import get_mongo_adapter
 
 
+# pylint: disable = inconsistent-return-statements
 class ConfirmationService:
     """ Service for a shop to confirm an order scheduled for it,
         the only argument necessary is the order's id, got from the common parser.
@@ -16,13 +17,9 @@ class ConfirmationService:
             If a problem occurs when updating, the process is aborted right away.
         """
         order_id = self.parser.field
-        self._update_in_mongo(order_id)
-        return 200
-
-    @staticmethod
-    def _update_in_mongo(order_id):
         mongo = get_mongo_adapter()
         try:
             mongo.confirm_order(order_id)
+            return 200
         except KeyError as error:
             abort(404, extra=f'{error}')

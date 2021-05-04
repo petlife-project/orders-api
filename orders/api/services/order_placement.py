@@ -21,8 +21,15 @@ class OrderPlacementService:
         """
         doc = self.parser.fields
         self._resolve_request_fields(doc)
-        self._create_control_fields(doc)
-        self._insert_in_mongo(doc)
+        doc['status'] = {
+            'confirmed': False,
+            'cancelled': False,
+            'rejected': False
+        }
+
+        mongo = get_mongo_adapter()
+        mongo.place_order(doc)
+
         return 200
 
     @staticmethod
@@ -54,16 +61,3 @@ class OrderPlacementService:
             'datetime': doc['schedule_datetime']
         }
         del doc['schedule_datetime']
-
-    @staticmethod
-    def _create_control_fields(doc):
-        doc['status'] = {
-            'confirmed': False,
-            'cancelled': False,
-            'rejected': False
-        }
-
-    @staticmethod
-    def _insert_in_mongo(doc):
-        mongo = get_mongo_adapter()
-        mongo.place_order(doc)

@@ -25,21 +25,18 @@ class PollingService:
         """
         username = self.parser.field
         self._check_forbidden_characters(username)
-        orders = self._search_in_mongo(username, type_)
-        return jsonify(orders)
 
-    @staticmethod
-    def _check_forbidden_characters(user_input):
-        if re.match(r'{([^}]+)}', user_input):
-            abort(403, extra='Invalid username')
-
-    @staticmethod
-    def _search_in_mongo(username, type_):
         field = f'{type_}.username'
         query = {field: username}
         mongo = get_mongo_adapter()
 
         try:
-            return mongo.search(query)
+            orders = mongo.search(query)
+            return jsonify(orders)
         except KeyError as error:
             abort(404, extra=f'{error}')
+
+    @staticmethod
+    def _check_forbidden_characters(user_input):
+        if re.match(r'{([^}]+)}', user_input):
+            abort(403, extra='Invalid username')
