@@ -1,24 +1,26 @@
 from flask_restful import Resource
+from flask_jwt_extended import jwt_required
 
-from orders.api.services.polling import PollingService
-from orders.api.services.confirmation import ConfirmationService
-from orders.api.services.rejection import RejectionService
+from orders.api.services.polling import get_orders
+from orders.api.services.change_status import ChangeStatusService
 
 
 class Shop(Resource):
     """ For a shop to accept/reject orders and get their current status."""
 
+    @jwt_required
     @staticmethod
     def get():
-        service = PollingService()
-        return service.get_orders('petshop')
+        return get_orders()
 
+    @jwt_required
     @staticmethod
     def put():
-        service = ConfirmationService()
+        service = ChangeStatusService()
         return service.confirm()
 
+    @jwt_required
     @staticmethod
     def delete():
-        service = RejectionService()
+        service = ChangeStatusService()
         return service.reject()
