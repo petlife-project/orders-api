@@ -8,19 +8,19 @@ from orders.api.services.change_status import ChangeStatusService
 class Shop(Resource):
     """ For a shop to accept/reject orders and get their current status."""
 
-    @jwt_required
     @staticmethod
+    @jwt_required
     def get():
         return get_orders()
 
-    @jwt_required
     @staticmethod
+    @jwt_required
     def put():
         service = ChangeStatusService()
         return service.confirm()
 
-    @jwt_required
     @staticmethod
+    @jwt_required
     def delete():
         service = ChangeStatusService()
         return service.reject()

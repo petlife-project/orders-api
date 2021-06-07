@@ -11,11 +11,11 @@ from cheroot.wsgi import Server as WSGIServer
 from orders.api.routes.client import Client
 from orders.api.routes.shop import Shop
 
-from orders.utils.env_vars import JWT_SECRET
+from orders.utils.env_vars import JWT_ALGORITHM, JWT_PRIVATE_PEM, JWT_PUBLIC_PEM
 
 APP = Flask(__name__)
-
-APP.config['JWT_SECRET_KEY'] = JWT_SECRET
+APP.config['JWT_ALGORITHM'] = JWT_ALGORITHM
+APP.config['JWT_PUBLIC_KEY'] = JWT_PUBLIC_PEM
 JWTManager(APP)
 
 CORS(APP)

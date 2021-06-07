@@ -9,18 +9,18 @@ from orders.api.services.change_status import ChangeStatusService
 class Client(Resource):
     """ For a client to place/cancel orders and get their current status."""
 
-    @jwt_required
     @staticmethod
+    @jwt_required
     def get():
         return get_orders()
 
-    @jwt_required
     @staticmethod
+    @jwt_required
     def post():
         return place_order()
 
-    @jwt_required
     @staticmethod
+    @jwt_required
     def delete():
         service = ChangeStatusService()
         return service.cancel()
