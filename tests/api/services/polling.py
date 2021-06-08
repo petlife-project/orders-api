@@ -46,7 +46,7 @@ class PollingServiceTestCase(unittest.TestCase):
 
     def test_get_orders_calls_methods_returns_all_orders(self):
         # Setup
-        mock_self = MagicMock()
+        mock_self = MagicMock(parser=MagicMock(field='test123'))
         type_ = 'client'
 
         # Act
@@ -54,8 +54,21 @@ class PollingServiceTestCase(unittest.TestCase):
 
         # Assert
         mock_self._check_forbidden_characters.assert_called()
-        mock_self._search_in_mongo.assert_called()
+        self.mocks['mongo_mock'].return_value.\
+            search.assert_called_with({'client.username': 'test123'})
         self.assertEqual(result, self.mocks['jsonify_mock'].return_value)
+
+    def test_get_orders_no_results_excepts_key_error_calls_abort(self):
+        # Setup
+        mock_self = MagicMock(parser=MagicMock(field='test123'))
+        type_ = 'test'
+        self.mocks['mongo_mock'].return_value.search.side_effect = KeyError('No orders found')
+
+        # Act
+        PollingService.get_orders(mock_self, type_)
+
+        # Assert
+        self.mocks['abort_mock'].assert_called_with(404, extra="'No orders found'")
 
     def test_check_forbidden_characters_matches_calls_abort(self):
         # Setup
@@ -67,30 +80,3 @@ class PollingServiceTestCase(unittest.TestCase):
 
         # Assert
         self.mocks['abort_mock'].assert_called_with(403, extra='Invalid username')
-
-    def test_search_in_mongo_returns_search_results(self):
-        # Setup
-        username = 'test123'
-        type_ = 'test'
-
-        # Act
-        results = PollingService._search_in_mongo(username, type_)
-
-        # Assert
-        self.mocks['mongo_mock'].return_value.\
-            search.assert_called_with({'test.username': 'test123'})
-        self.assertEqual(
-            results, self.mocks['mongo_mock'].return_value.search.return_value
-        )
-
-    def test_search_in_mongo_no_results_excepts_key_error_calls_abort(self):
-        # Setup
-        username = 'test123'
-        type_ = 'test'
-        self.mocks['mongo_mock'].return_value.search.side_effect = KeyError('No orders found')
-
-        # Act
-        PollingService._search_in_mongo(username, type_)
-
-        # Assert
-        self.mocks['abort_mock'].assert_called_with(404, extra="'No orders found'")

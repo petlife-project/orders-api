@@ -38,34 +38,24 @@ class ConfirmationServiceTestCase(unittest.TestCase):
 
     def test_confirm_gets_field_calls_mongo_returns_200(self):
         # Setup
-        mock_self = MagicMock()
+        mock_self = MagicMock(parser=MagicMock(field='coxinha_frango_catupiry'))
 
         # Act
         response = ConfirmationService.confirm(mock_self)
 
         # Assert
-        mock_self._update_in_mongo.assert_called_once()
-        self.assertEqual(response, 200)
-
-    def test_update_in_mongo_calls_confirm_order_successfully(self):
-        # Setup
-        order_id = 'coxinha_frango_catupiry'
-
-        # Act
-        ConfirmationService._update_in_mongo(order_id)
-
-        # Assert
         self.mocks['mongo_mock'].return_value.\
             confirm_order.assert_called_with('coxinha_frango_catupiry')
+        self.assertEqual(response, 200)
 
-    def test_update_in_mongo_confirm_order_except_key_error_calls_abort(self):
+    def test_confirm_confirm_order_except_key_error_calls_abort(self):
         # Setup
-        order_id = 'risoles_queijo'
+        mock_self = MagicMock(parser=MagicMock(field='risoles_queijo'))
         self.mocks['mongo_mock'].return_value.\
             confirm_order.side_effect = KeyError('Order not found')
 
         # Act
-        ConfirmationService._update_in_mongo(order_id)
+        ConfirmationService.confirm(mock_self)
 
         # Assert
         self.mocks['abort_mock'].assert_called_with(404, extra="'Order not found'")

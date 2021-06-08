@@ -36,12 +36,19 @@ class OrderPlacementServiceTestCase(unittest.TestCase):
 
     def test_place_order_calls_methods_returns_200(self):
         # Setup
-        mock_self = MagicMock()
+        mock_self = MagicMock(parser=MagicMock(fields={}))
 
         # Act
         response = OrderPlacementService.place_order(mock_self)
 
         # Assert
+        self.mocks['mongo_mock'].return_value.place_order.assert_called_with({
+            'status': {
+                'confirmed': False,
+                'cancelled': False,
+                'rejected': False
+            }
+        })
         self.assertEqual(response, 200)
 
     def test_resolve_request_fields_successfull_run_alters_dict(self):
@@ -79,29 +86,3 @@ class OrderPlacementServiceTestCase(unittest.TestCase):
                 'datetime': '2020-10-11-09-30'
             }
         })
-
-    def test_create_control_fields_alters_doc(self):
-        # Setup
-        doc = {}
-
-        # Act
-        OrderPlacementService._create_control_fields(doc)
-
-        # Assert
-        self.assertEqual(doc, {
-            'status': {
-                'confirmed': False,
-                'cancelled': False,
-                'rejected': False
-            }
-        })
-
-    def test_insert_in_mongo_calls_place_order_mongo_method(self):
-        # Setup
-        doc = {}
-
-        # Act
-        OrderPlacementService._insert_in_mongo(doc)
-
-        # Assert
-        self.mocks['mongo_mock'].return_value.place_order.assert_called_with({})

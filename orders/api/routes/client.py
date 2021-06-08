@@ -1,24 +1,26 @@
 from flask_restful import Resource
+from flask_jwt_extended import jwt_required
 
-from orders.api.services.order_placement import OrderPlacementService
-from orders.api.services.polling import PollingService
-from orders.api.services.cancellation import CancellationService
+from orders.api.services.order_placement import place_order
+from orders.api.services.polling import get_orders
+from orders.api.services.change_status import ChangeStatusService
 
 
 class Client(Resource):
     """ For a client to place/cancel orders and get their current status."""
 
     @staticmethod
+    @jwt_required
     def get():
-        service = PollingService()
-        return service.get_orders('client')
+        return get_orders()
 
     @staticmethod
+    @jwt_required
     def post():
-        service = OrderPlacementService()
-        return service.place_order()
+        return place_order()
 
     @staticmethod
+    @jwt_required
     def delete():
-        service = CancellationService()
+        service = ChangeStatusService()
         return service.cancel()

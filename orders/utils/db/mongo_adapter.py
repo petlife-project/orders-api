@@ -42,19 +42,17 @@ class MongoAdapter:
             Returns:
                 results (list): List of orders, already filtered from Mongo Results Object
         """
-        results = []
-        search_result = self.db_.find(query)
-
-        for doc in search_result:
-            doc['_id'] = str(doc['_id'])
-            results.append(doc)
+        results = list(self.db_.find(query))
 
         if not results:
             raise KeyError('No orders related to this user')
 
+        for doc in results:
+            doc['_id'] = str(doc['_id'])
+
         return results
 
-    def cancel_order(self, order_id):
+    def cancel_order(self, order_id, user):
         """ Queries the database via the _id index and updates the value
             of the cancelled field inside the status object
 
@@ -64,7 +62,9 @@ class MongoAdapter:
             Raises:
                 KeyError: If no orders match the searched id.
         """
-        query = {'_id': ObjectId(order_id)}
+        username = user['username']
+        type_ = user['type']
+        query = {'_id': ObjectId(order_id), f'{type_}.username': username}
         change = {'$set': {'status.cancelled': True}}
 
         update = self.db_.find_one_and_update(query, change)
@@ -72,7 +72,7 @@ class MongoAdapter:
         if not update:
             raise KeyError('No orders found with provided id')
 
-    def confirm_order(self, order_id):
+    def confirm_order(self, order_id, user):
         """ Queries the database via the _id index and updates the value
             of the confirmed field inside the status object
 
@@ -82,7 +82,9 @@ class MongoAdapter:
             Raises:
                 KeyError: If no orders match the searched id.
         """
-        query = {'_id': ObjectId(order_id)}
+        username = user['username']
+        type_ = user['type']
+        query = {'_id': ObjectId(order_id), f'{type_}.username': username}
         change = {'$set': {'status.confirmed': True}}
 
         update = self.db_.find_one_and_update(query, change)
@@ -90,7 +92,7 @@ class MongoAdapter:
         if not update:
             raise KeyError('No orders found with provided id')
 
-    def reject_order(self, order_id):
+    def reject_order(self, order_id, user):
         """ Queries the database via the _id index and updates the value
             of the rejected field inside the status object
 
@@ -100,7 +102,9 @@ class MongoAdapter:
             Raises:
                 KeyError: If no orders match the searched id.
         """
-        query = {'_id': ObjectId(order_id)}
+        username = user['username']
+        type_ = user['type']
+        query = {'_id': ObjectId(order_id), f'{type_}.username': username}
         change = {'$set': {'status.rejected': True}}
 
         update = self.db_.find_one_and_update(query, change)
